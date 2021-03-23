@@ -94,7 +94,10 @@ h1 {
     padding-top: 15px;
     margin-top: 2rem;
 }
-
+.message-label {
+    margin-bottom: 2rem;
+    height: 3rem;
+}
 /* BUTTONS */
 .btn {
     border: none;
