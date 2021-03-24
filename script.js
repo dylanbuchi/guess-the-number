@@ -1,8 +1,14 @@
 'use strict';
 
-let hiddenNumber = Math.trunc(Math.random() * 101);
+// variables;
 let score = 200;
 let highscore = 0;
+let hiddenNumber = undefined;
+
+// functions
+const createRandomNumber = (value) => {
+    return Math.trunc(Math.random() * value + 1);
+};
 
 const updateHTMLContentFrom = (className, newValue) => {
     document.querySelector(className).textContent = newValue;
@@ -10,22 +16,23 @@ const updateHTMLContentFrom = (className, newValue) => {
 
 const numberLengthIsValid = (number) => number >= 1 && number <= 100;
 
+const displayMessage = (msg) => {
+    updateHTMLContentFrom('.message-label', msg);
+};
+
 const checkUserNumber = (number) => {
     if (!numberLengthIsValid(number)) {
-        updateHTMLContentFrom(
-            '.message-label',
-            'Enter a number between (1 - 100) inclusive'
-        );
+        displayMessage('Enter a number between (1 - 100) inclusive');
     } else if (number == hiddenNumber) {
-        updateHTMLContentFrom('.message-label', '🎉 Correct! 🎉');
+        displayMessage('🎉 Correct! 🎉');
         updateHighscore();
         changeNumberLabelBackgroundColor('lightgreen');
     } else if (number > hiddenNumber) {
-        updateHTMLContentFrom('.message-label', 'Too high!');
+        displayMessage('Too high!');
         updateScore();
         changeNumberLabelBackgroundColor('skyblue');
     } else {
-        updateHTMLContentFrom('.message-label', 'Too low!');
+        displayMessage('Too low!');
         updateScore();
         changeNumberLabelBackgroundColor('orange');
     }
@@ -39,6 +46,7 @@ const updateScore = () => {
     score -= 2;
     updateHTMLContentFrom('.score', score);
 };
+
 const updateHighscore = () => {
     if (score > highscore) {
         highscore = score;
@@ -66,22 +74,26 @@ const clickCheckButton = () => {
 };
 
 const reset = () => {
-    hiddenNumber = Math.trunc(Math.random() * 101);
+    hiddenNumber = createRandomNumber(100);
     score = 200;
     updateHTMLContentFrom(
         '.message-label',
         'Enter a number between (1 - 100) inclusive'
     );
-    updateHTMLContentFrom('.score', '200');
+    updateHTMLContentFrom('.score', score);
     updateHTMLContentFrom('.number-label', '?');
+
     changeNumberLabelBackgroundColor('#eee');
     document.querySelector('.guess-box').value = '';
 };
+
 const clickPlayAgainButton = () => {
     document.querySelector('.play-again-box').addEventListener('click', () => {
         reset();
     });
 };
 
+// main
+hiddenNumber = createRandomNumber(100);
 clickCheckButton();
 clickPlayAgainButton();
