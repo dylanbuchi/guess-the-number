@@ -1,5 +1,20 @@
 'use strict';
 
+// constants
+// CSS classes name
+const PLAY_AGAIN_BOX_CLASS = '.play-again-box';
+const GUESS_BOX_CLASS = '.guess-box';
+
+const MESSAGE_LABEL_CLASS = '.message-label';
+const NUMBER_LABEL_CLASS = '.number-label';
+
+const HIGHSCORE_LABEL_CLASS = '.highscore';
+const SCORE_LABEL_CLASS = '.score';
+
+const CHECK_CLASS = '.check';
+
+const GREY_COLOR = '#eee';
+
 // variables;
 let score = 200;
 let highscore = 0;
@@ -17,7 +32,7 @@ const updateHTMLContentFrom = (className, newValue) => {
 const numberLengthIsValid = (number) => number >= 1 && number <= 100;
 
 const displayMessage = (msg) => {
-    updateHTMLContentFrom('.message-label', msg);
+    updateHTMLContentFrom(MESSAGE_LABEL_CLASS, msg);
 };
 
 const checkUserNumber = (number) => {
@@ -39,30 +54,30 @@ const checkUserNumber = (number) => {
 };
 
 const changeNumberLabelBackgroundColor = (color) => {
-    document.querySelector('.number-label').style.background = color;
+    document.querySelector(NUMBER_LABEL_CLASS).style.background = color;
 };
 
 const updateScore = () => {
     score -= 2;
-    updateHTMLContentFrom('.score', score);
+    updateHTMLContentFrom(SCORE_LABEL_CLASS, score);
 };
 
 const updateHighscore = () => {
     if (score > highscore) {
         highscore = score;
-        updateHTMLContentFrom('.highscore', highscore);
+        updateHTMLContentFrom(HIGHSCORE_LABEL_CLASS, highscore);
     }
 };
 
 const updateNumberLabel = (newValue) => {
     if (numberLengthIsValid(newValue)) {
-        updateHTMLContentFrom('.number-label', newValue);
+        updateHTMLContentFrom(NUMBER_LABEL_CLASS, newValue);
     }
 };
 
 const clickCheckButton = () => {
-    document.querySelector('.check').addEventListener('click', () => {
-        const guess = document.querySelector('.guess-box').value;
+    document.querySelector(CHECK_CLASS).addEventListener('click', () => {
+        const guess = document.querySelector(GUESS_BOX_CLASS).value;
 
         if (!guess) {
             return;
@@ -76,21 +91,24 @@ const clickCheckButton = () => {
 const reset = () => {
     hiddenNumber = createRandomNumber(100);
     score = 200;
+
     updateHTMLContentFrom(
-        '.message-label',
+        MESSAGE_LABEL_CLASS,
         'Enter a number between (1 - 100) inclusive'
     );
-    updateHTMLContentFrom('.score', score);
-    updateHTMLContentFrom('.number-label', '?');
+    updateHTMLContentFrom(SCORE_LABEL_CLASS, score);
+    updateHTMLContentFrom(NUMBER_LABEL_CLASS, '?');
 
-    changeNumberLabelBackgroundColor('#eee');
-    document.querySelector('.guess-box').value = '';
+    changeNumberLabelBackgroundColor(GREY_COLOR);
+    document.querySelector(GUESS_BOX_CLASS).value = '';
 };
 
 const clickPlayAgainButton = () => {
-    document.querySelector('.play-again-box').addEventListener('click', () => {
-        reset();
-    });
+    document
+        .querySelector(PLAY_AGAIN_BOX_CLASS)
+        .addEventListener('click', () => {
+            reset();
+        });
 };
 
 // main
